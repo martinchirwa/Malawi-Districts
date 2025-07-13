@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Malawi District Graph Visualization</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 2em; }
+    svg { border: 1px solid #ccc; width: 800px; height: 800px; }
+    .node { fill: green; stroke: #333; stroke-width: 1px; }
+    .edge { stroke: #999; stroke-width: 1.5px; }
+    text { font-size: 10px; pointer-events: none; }
+  </style>
+</head>
+<body>
+  <h2>Malawi District Graph Visualization</h2>
+  <svg id="graph"></svg>
+
+  <script>
+    const positions = {
+      "Blantyre": { "x": 0.4111, "y": 0.3262 },
+      "Chikwawa": { "x": 0.3937, "y": 0.2481 },
+      "Chiradzulu": { "x": 0.4761, "y": 0.3649 },
+      "Chitipa": { "x": 0.5498, "y": 0.7045 },
+      "Dedza": { "x": 0.5192, "y": 0.5003 },
+      "Dowa": { "x": 0.4943, "y": 0.5621 },
+      "Karonga": { "x": 0.5774, "y": 0.7732 },
+      "Kasungu": { "x": 0.5345, "y": 0.6281 },
+      "Lilongwe": { "x": 0.4659, "y": 0.5773 },
+      "Machinga": { "x": 0.4382, "y": 0.3854 },
+      "Mangochi": { "x": 0.4176, "y": 0.3248 },
+      "Mchinji": { "x": 0.4981, "y": 0.6171 },
+      "Mulanje": { "x": 0.4892, "y": 0.4053 },
+      "Mwanza": { "x": 0.3682, "y": 0.2894 },
+      "Mzimba": { "x": 0.6023, "y": 0.7456 },
+      "Neno": { "x": 0.3532, "y": 0.2661 },
+      "Nkhata Bay": { "x": 0.6445, "y": 0.8221 },
+      "Nkhotakota": { "x": 0.4872, "y": 0.6893 },
+      "Nsanje": { "x": 0.3794, "y": 0.2203 },
+      "Ntcheu": { "x": 0.4982, "y": 0.4521 },
+      "Ntchisi": { "x": 0.5194, "y": 0.5991 },
+      "Phalombe": { "x": 0.4651, "y": 0.3765 },
+      "Rumphi": { "x": 0.5652, "y": 0.7853 },
+      "Salima": { "x": 0.4773, "y": 0.6731 },
+      "Thyolo": { "x": 0.4412, "y": 0.3458 },
+      "Zomba": { "x": 0.4553, "y": 0.3911 },
+      "Balaka": { "x": 0.4321, "y": 0.3704 },
+      "Likoma": { "x": 0.6752, "y": 0.8654 }
+    };
+
+    const edges = [
+      ["Blantyre", "Chikwawa"], ["Blantyre", "Chiradzulu"], ["Blantyre", "Thyolo"],
+      ["Chikwawa", "Nsanje"], ["Chikwawa", "Mwanza"], ["Chiradzulu", "Zomba"],
+      ["Chiradzulu", "Phalombe"], ["Chitipa", "Karonga"], ["Dedza", "Lilongwe"],
+      ["Dedza", "Ntcheu"], ["Dowa", "Lilongwe"], ["Dowa", "Ntchisi"],
+      ["Karonga", "Rumphi"], ["Kasungu", "Lilongwe"], ["Kasungu", "Mzimba"],
+      ["Lilongwe", "Mchinji"], ["Lilongwe", "Salima"], ["Machinga", "Zomba"],
+      ["Machinga", "Balaka"], ["Mangochi", "Balaka"], ["Mangochi", "Salima"],
+      ["Mulanje", "Phalombe"], ["Mulanje", "Thyolo"], ["Mwanza", "Neno"],
+      ["Mzimba", "Nkhata Bay"], ["Mzimba", "Rumphi"], ["Nkhata Bay", "Nkhotakota"],
+      ["Nkhotakota", "Salima"], ["Nsanje", "Chikwawa"], ["Ntcheu", "Balaka"],
+      ["Ntchisi", "Nkhotakota"], ["Phalombe", "Mulanje"], ["Salima", "Nkhotakota"],
+      ["Zomba", "Machinga"]
+    ];
+
+    const width = 800;
+    const height = 800;
+
+    const svg = d3.select("#graph");
+
+    // Draw edges
+    svg.selectAll(".edge")
+      .data(edges)
+      .enter()
+      .append("line")
+      .attr("class", "edge")
+      .attr("x1", d => positions[d[0]].x * width)
+      .attr("y1", d => positions[d[0]].y * height)
+      .attr("x2", d => positions[d[1]].x * width)
+      .attr("y2", d => positions[d[1]].y * height);
+
+    // Draw nodes
+    svg.selectAll(".node")
+      .data(Object.entries(positions))
+      .enter()
+      .append("circle")
+      .attr("class", "node")
+      .attr("cx", d => d[1].x * width)
+      .attr("cy", d => d[1].y * height)
+      .attr("r", 8);
+
+    // Add labels
+    svg.selectAll("text")
+      .data(Object.entries(positions))
+      .enter()
+      .append("text")
+      .attr("x", d => d[1].x * width + 10)
+      .attr("y", d => d[1].y * height)
+      .text(d => d[0]);
+  </script>
+</body>
+</html>
