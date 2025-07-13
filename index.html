@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -68,34 +69,31 @@
 
     const svg = d3.select("#graph");
 
-    // Draw edges
     svg.selectAll(".edge")
       .data(edges)
       .enter()
       .append("line")
       .attr("class", "edge")
       .attr("x1", d => positions[d[0]].x * width)
-      .attr("y1", d => positions[d[0]].y * height)
+      .attr("y1", d => height - (positions[d[0]].y * height))
       .attr("x2", d => positions[d[1]].x * width)
-      .attr("y2", d => positions[d[1]].y * height);
+      .attr("y2", d => height - (positions[d[1]].y * height));
 
-    // Draw nodes
     svg.selectAll(".node")
       .data(Object.entries(positions))
       .enter()
       .append("circle")
       .attr("class", "node")
       .attr("cx", d => d[1].x * width)
-      .attr("cy", d => d[1].y * height)
+      .attr("cy", d => height - (d[1].y * height))
       .attr("r", 8);
 
-    // Add labels
     svg.selectAll("text")
       .data(Object.entries(positions))
       .enter()
       .append("text")
       .attr("x", d => d[1].x * width + 10)
-      .attr("y", d => d[1].y * height)
+      .attr("y", d => height - (d[1].y * height))
       .text(d => d[0]);
   </script>
 </body>
